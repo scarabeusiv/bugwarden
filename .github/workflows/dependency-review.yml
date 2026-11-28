@@ -29,26 +29,27 @@ jobs:
         with:
           fail-on-severity: high
           comment-summary-in-pr: on-failure
-          # This is a permissive Apache-2.0 project: reject copyleft
-          # dependencies. MPL-2.0 (file-level copyleft) is intentionally NOT
-          # listed — deny.toml allows it. Keep this list in sync with the
-          # license policy in deny.toml.
-          deny-licenses: >-
-            GPL-2.0-only,
-            GPL-2.0-or-later,
-            GPL-3.0-only,
-            GPL-3.0-or-later,
-            AGPL-3.0-only,
-            AGPL-3.0-or-later,
-            LGPL-2.1-only,
-            LGPL-2.1-or-later,
-            LGPL-3.0-only,
-            LGPL-3.0-or-later,
-            CDDL-1.0,
-            EPL-1.0,
-            EPL-2.0,
-            MPL-1.1,
-            OSL-3.0
+          # This is a permissive Apache-2.0 project: only dependencies whose
+          # license is on the allow list may land. The list mirrors the
+          # `[licenses] allow` list in deny.toml (the cargo-deny floor);
+          # `deny-licenses` is deprecated in the action, so the allow list
+          # is what enforces the policy here. MPL-2.0 (file-level copyleft)
+          # is allowed, as in deny.toml.
+          allow-licenses: >-
+            Apache-2.0,
+            Apache-2.0 WITH LLVM-exception,
+            MIT,
+            BSD-2-Clause,
+            BSD-3-Clause,
+            ISC,
+            Unicode-3.0,
+            Zlib,
+            BSL-1.0,
+            CC0-1.0,
+            0BSD,
+            CDLA-Permissive-2.0,
+            MPL-2.0,
+            OpenSSL
           # Swatinem/rust-cache is LGPL-3.0 and exempt from the list above,
           # which exists for dependencies that get COMPILED INTO the binary
           # we distribute. This is a GitHub Action: it runs on the runner,
